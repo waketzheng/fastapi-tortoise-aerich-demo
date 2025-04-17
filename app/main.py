@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import uvicorn
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 from tortoise.contrib.fastapi import register_tortoise
 
 try:
@@ -16,14 +17,17 @@ except ImportError as e:
         from app.settings import TORTOISE_ORM
     else:
         raise e
+from app.routers.users import router as users_router
 
 app = FastAPI()
 register_tortoise(app, config=TORTOISE_ORM)
+app.include_router(users_router, prefix="/users")
 
 
 @app.get("/")
 def main():
-    return "Hello from fastapi-tortoise-aerich-demo!"
+    docs = "<a href='/docs'>docs</a>"
+    return HTMLResponse(f"<h1>Hello from fastapi-tortoise-aerich-demo!</h1>{docs}")
 
 
 if __name__ == "__main__":
