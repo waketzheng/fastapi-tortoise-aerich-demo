@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from urllib.parse import quote_plus
 
@@ -16,8 +17,9 @@ def auto_load(strict=False) -> list[str]:
 
 
 DB_NAME = "fastapi_tortoise_aerich_demo"
-DB_PASSWORD = quote_plus("postgres")
-DB_URL = f"postgres://postgres:{DB_PASSWORD}@127.0.0.1:5432/{DB_NAME}"
+DB_USER = os.getenv("POSTGRES_USER", "postgres")
+DB_PASSWORD = quote_plus(os.getenv("POSTGRES_PASSWORD", "postgres"))
+DB_URL = f"postgres://{DB_USER}:{DB_PASSWORD}@127.0.0.1:5432/{DB_NAME}"
 TORTOISE_ORM = {
     "connections": {"default": DB_URL},
     "apps": {"models": {"models": [*auto_load(), "aerich.models"]}},

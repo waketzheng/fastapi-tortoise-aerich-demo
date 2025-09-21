@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import sys
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
@@ -25,10 +27,17 @@ app.include_router(users_router, prefix="/users")
 
 
 @app.get("/")
-def main():
+def homepage() -> HTMLResponse:
     docs = "<a href='/docs'>docs</a>"
     return HTMLResponse(f"<h1>Hello from fastapi-tortoise-aerich-demo!</h1>{docs}")
 
 
+def main() -> None:
+    port = 8000
+    if sys.argv[1:] and sys.argv[1].isdigit():
+        port = int(sys.argv[1])
+    uvicorn.run("__main__:app", reload=True, port=port)
+
+
 if __name__ == "__main__":
-    uvicorn.run(app)
+    main()
