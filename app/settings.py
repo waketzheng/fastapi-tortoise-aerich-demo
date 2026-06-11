@@ -13,6 +13,7 @@ def auto_load(strict=False) -> list[str]:
     files = [p for p in models_dir.glob("*.py") if p.name[0] != "_"]
     if strict:
         files = [p for p in files if b"tortoise" in p.read_bytes()]
+    # return [f"app.models.{p.stem}" for p in files if p.stem != "base"]
     return [f"app.models.{p.stem}" for p in files]
 
 

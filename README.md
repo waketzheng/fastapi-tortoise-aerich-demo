@@ -12,18 +12,16 @@ sudo -u postgres psql -U postgres -d postgres -c "create database fastapi_tortoi
 ```
 ## Install dependencies
 ```bash
-uv python pin 3.11
-uv sync
+just deps
 ```
 ## Initial aerich
 ```bash
-source .venv/*/activate
-aerich init -t app.settings.TORTOISE_ORM
-aerich init-db
-aerich migrate
-aerich upgrade
+pdm run aerich init -t app.settings.TORTOISE_ORM
+pdm run aerich init-db
+pdm run aerich migrate
+pdm run aerich upgrade
 ```
 ## Start server
 ```bash
-./app/main.py
+just dev
 ```

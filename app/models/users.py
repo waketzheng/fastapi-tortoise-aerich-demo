@@ -1,9 +1,9 @@
-from tortoise import Model, fields
+from ._base import BaseModel, fields
 
 
-class Group(Model):
+class Group(BaseModel):
     name = fields.CharField(max_length=10)
 
 
-class User(Model):
+class User(BaseModel):
     name = fields.CharField(max_length=20)
