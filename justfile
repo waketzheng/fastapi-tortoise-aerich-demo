@@ -41,9 +41,17 @@ deps options="" *args: venv
     @just _uv_deps {{ options }} {{ args }}
     @just _pypi
 
+add *args: venv
+    @just _pypi --reverse
+    uv add {{ args }}
+    @just _pypi
+
+shell *args: venv
+    pdm run tortoise shell {{ args }}
+
 # Runserver
 dev *args:
-    uv run --no-sync app/main.py {{args}}
+    uv run --no-sync app/main.py {{ args }}
 
 _style *args:
     just _ruff format {{ args }}
@@ -81,7 +89,7 @@ report:
     uv run --no-sync coverage report -m
 
 fast command *args:
-    uvx --from fast-dev-cli fast {{command}} {{args}}
+    uvx --from fast-dev-cli fast {{ command }} {{ args }}
 
 version part="patch" *args:
     @just fast bump {{ part }} {{ args }}
